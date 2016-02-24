@@ -63,6 +63,11 @@
 				const __Internal__ = {
 				};
 
+
+				const __Natives__ = {
+					windowError: (global.Error || Error), // NOTE: "node.js" does not include "Error" in "global".
+				};
+
 				
 				/***********************************/
 				/****          SESSIONS          ***/
@@ -192,11 +197,11 @@
 				
 
 				server.EndOfRequest = types.createErrorType('EndOfRequest', types.ScriptAbortedError, function _new() {
-					return global.Error.call(this, "End of request.");
+					return __Natives__.windowError.call(this, "End of request.");
 				});
 				
 				server.RequestClosed = types.createErrorType('RequestClosed', types.ScriptAbortedError, function _new() {
-					return global.Error.call(this, "Request closed.");
+					return __Natives__.windowError.call(this, "Request closed.");
 				});
 				
 				
