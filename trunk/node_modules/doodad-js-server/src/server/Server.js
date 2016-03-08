@@ -35,13 +35,16 @@
 		DD_MODULES = (DD_MODULES || {});
 		DD_MODULES['Doodad.Server'] = {
 			type: null,
-			version: '0.2d',
+			version: '0.3.0d',
 			namespaces: ['Interfaces', 'MixIns'],
 			dependencies: [
-				'Doodad', 
+				{
+					name: 'Doodad',
+					version: '2.0.0',
+				}, 
 				{
 					name: 'Doodad.IO',
-					version: '0.2',
+					version: '0.4.0',
 				}, 
 			],
 
@@ -91,7 +94,7 @@
 							root.DD_ASSERT(!types.isNothing(id), "Invalid id.");
 						};
 						this._super();
-						this.setAttributes({
+						types.setAttributes(this, {
 							manager: manager,
 							id: id,
 							data: {},
@@ -106,7 +109,7 @@
 					}),
 					
 					refresh: doodad.PUBLIC(function() {
-						this.setAttribute('timestamp', new Date());
+						types.setAttribute(this, 'timestamp', new Date());
 					}),
 				}));
 				
