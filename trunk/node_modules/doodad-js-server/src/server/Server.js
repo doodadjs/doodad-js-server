@@ -35,16 +35,16 @@
 		DD_MODULES = (DD_MODULES || {});
 		DD_MODULES['Doodad.Server'] = {
 			type: null,
-			version: '0.3.0d',
+			version: '0.3.2a',
 			namespaces: ['Interfaces', 'MixIns'],
 			dependencies: [
 				{
 					name: 'Doodad',
-					version: '2.0.0',
+					version: '2.2.0',
 				}, 
 				{
 					name: 'Doodad.IO',
-					version: '0.4.0',
+					version: '1.0.0',
 				}, 
 			],
 
