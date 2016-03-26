@@ -35,18 +35,9 @@
 		DD_MODULES = (DD_MODULES || {});
 		DD_MODULES['Doodad.Server'] = {
 			type: null,
-			version: '0.3.2a',
+			//! INSERT("version:'" + VERSION('doodad-js-server') + "',")
 			namespaces: ['Interfaces', 'MixIns'],
-			dependencies: [
-				{
-					name: 'Doodad',
-					version: '2.2.0',
-				}, 
-				{
-					name: 'Doodad.IO',
-					version: '1.0.0',
-				}, 
-			],
+			dependencies: null,
 
 			create: function create(root, /*optional*/_options) {
 				"use strict";
