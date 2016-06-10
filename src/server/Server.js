@@ -160,7 +160,7 @@
 					onError: doodad.ERROR_EVENT(),
 
 					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
-					customData: doodad.PUBLIC(doodad.READ_ONLY(null)),
+					data: doodad.PUBLIC(doodad.READ_ONLY(null)),
 
 					sanitize: doodad.PUBLIC(function() {
 						try {
@@ -195,12 +195,12 @@
 				})));
 				
 
-				server.EndOfRequest = types.createErrorType('EndOfRequest', types.ScriptAbortedError, function _new() {
-					return __Natives__.windowError.call(this, "End of request.");
+				server.EndOfRequest = types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
+					return types.ScriptInterruptedError.call(this, message || "End of request.", params);
 				});
 				
-				server.RequestClosed = types.createErrorType('RequestClosed', types.ScriptAbortedError, function _new() {
-					return __Natives__.windowError.call(this, "Request closed.");
+				server.RequestClosed = types.createErrorType('RequestClosed', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
+					return types.ScriptInterruptedError.call(this, message || "Request closed.", params);
 				});
 				
 				
