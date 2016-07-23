@@ -44,7 +44,7 @@
 			version: /*! REPLACE_BY(TO_SOURCE(VERSION(MANIFEST("name")))) */ null /*! END_REPLACE() */,
 			namespaces: ['Interfaces', 'MixIns'],
 
-			create: function create(root, /*optional*/_options) {
+			create: function create(root, /*optional*/_options, _shared) {
 				"use strict";
 
 				const doodad = root.Doodad,
@@ -63,9 +63,9 @@
 				};
 
 
-				const __Natives__ = {
-					windowError: (global.Error || Error), // NOTE: "node.js" does not include "Error" in "global".
-				};
+				//types.complete(_shared.Natives, {
+					//windowError: (global.Error || Error), // NOTE: "node.js" does not include "Error" in "global".
+				//});
 
 				
 				/***********************************/
@@ -90,7 +90,7 @@
 							root.DD_ASSERT(!types.isNothing(id), "Invalid id.");
 						};
 						this._super();
-						types.setAttributes(this, {
+						_shared.setAttributes(this, {
 							manager: manager,
 							id: id,
 							data: {},
@@ -105,7 +105,7 @@
 					}),
 					
 					refresh: doodad.PUBLIC(function() {
-						types.setAttribute(this, 'timestamp', new Date());
+						_shared.setAttribute(this, 'timestamp', new Date());
 					}),
 				}));
 				
@@ -151,6 +151,7 @@
 				/*************************************/
 					
 				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
+									mixIns.Creatable,
 									mixIns.Events,
 				{
 					$TYPE_NAME: 'Request',
@@ -162,6 +163,12 @@
 					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
 					data: doodad.PUBLIC(doodad.READ_ONLY(null)),
 
+					create: doodad.OVERRIDE(function create() {
+						this._super();
+						
+						_shared.setAttribute(this, 'data', {});
+					}),
+					
 					sanitize: doodad.PUBLIC(function() {
 						try {
 							this.onSanitize(new doodad.Event());
@@ -169,6 +176,10 @@
 							this.onError(new doodad.ErrorEvent(ex));
 						};
 					}),
+					
+					catchError: doodad.PUBLIC(doodad.BIND(doodad.JS_METHOD(function catchError(err) {
+						// Do nothing
+					}))),
 					
 					end: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
 					respondWithError: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function respondWithError(ex)
@@ -181,7 +192,7 @@
 					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
 					options: doodad.PUBLIC(doodad.READ_ONLY(null)),
 
-					execute: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(request)
+					execute: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function(request)
 				})));
 
 				serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
