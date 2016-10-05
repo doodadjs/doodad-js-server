@@ -1,8 +1,9 @@
+//! BEGIN_MODULE()
+
 //! REPLACE_BY("// Copyright 2016 Claude Petit, licensed under Apache License version 2.0\n", true)
-// dOOdad - Object-oriented programming framework
+// doodad-js - Object-oriented programming framework
 // File: Server.js - Server tools
-// Project home: https://sourceforge.net/projects/doodad-js/
-// Trunk: svn checkout svn://svn.code.sf.net/p/doodad-js/code/trunk doodad-js-code
+// Project home: https://github.com/doodadjs/
 // Author: Claude Petit, Quebec city
 // Contact: doodadjs [at] gmail.com
 // Note: I'm still in alpha-beta stage, so expect to find some bugs or incomplete parts !
@@ -23,25 +24,11 @@
 //	limitations under the License.
 //! END_REPLACE()
 
-(function() {
-	const global = this;
-
-	var exports = {};
-	
-	//! BEGIN_REMOVE()
-	if ((typeof process === 'object') && (typeof module === 'object')) {
-	//! END_REMOVE()
-		//! IF_DEF("serverSide")
-			module.exports = exports;
-		//! END_IF()
-	//! BEGIN_REMOVE()
-	};
-	//! END_REMOVE()
-	
-	exports.add = function add(DD_MODULES) {
+module.exports = {
+	add: function add(DD_MODULES) {
 		DD_MODULES = (DD_MODULES || {});
 		DD_MODULES['Doodad.Server'] = {
-			version: /*! REPLACE_BY(TO_SOURCE(VERSION(MANIFEST("name")))) */ null /*! END_REPLACE() */,
+			version: /*! REPLACE_BY(TO_SOURCE(VERSION(MANIFEST("name")))) */ null /*! END_REPLACE()*/,
 			namespaces: ['Interfaces', 'MixIns'],
 
 			create: function create(root, /*optional*/_options, _shared) {
@@ -53,6 +40,7 @@
 					mixIns = doodad.MixIns,
 					interfaces = doodad.Interfaces,
 					io = doodad.IO,
+					ioMixIns = io.MixIns,
 					ioInterfaces = io.Interfaces,
 					server = doodad.Server,
 					serverInterfaces = server.Interfaces,
@@ -170,22 +158,19 @@
 					}),
 					
 					sanitize: doodad.PUBLIC(function() {
-						try {
+						//try {
 							this.onSanitize(new doodad.Event());
-						} catch(ex) {
-							this.onError(new doodad.ErrorEvent(ex));
-						};
+						//} catch(ex) {
+						//	this.onError(new doodad.ErrorEvent(ex));
+						//};
 					}),
 					
-					catchError: doodad.PUBLIC(doodad.BIND(doodad.JS_METHOD(function catchError(err) {
-						// Do nothing
-					}))),
+					catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.MUST_OVERRIDE()))),
 					
-					end: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
-					respondWithError: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function respondWithError(ex)
+					end: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function()
 				})));
 				
-				serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
+				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
 				{
 					$TYPE_NAME: 'Response',
 					
@@ -195,9 +180,9 @@
 					execute: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function(request)
 				})));
 
-				serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
+				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
 									mixIns.Events,
-									ioInterfaces.Listener,
+									ioMixIns.Listener,
 				{
 					$TYPE_NAME: 'Server',
 
@@ -206,38 +191,12 @@
 				})));
 				
 
-				server.EndOfRequest = types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
+				server.REGISTER(types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
 					return types.ScriptInterruptedError.call(this, message || "End of request.", params);
-				});
-				
-				server.RequestClosed = types.createErrorType('RequestClosed', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
-					return types.ScriptInterruptedError.call(this, message || "Request closed.", params);
-				});
-				
-				
+				}));
 			},
 		};
-		
 		return DD_MODULES;
-	};
-	
-	//! BEGIN_REMOVE()
-	if ((typeof process !== 'object') || (typeof module !== 'object')) {
-	//! END_REMOVE()
-		//! IF_UNDEF("serverSide")
-			// <PRB> export/import are not yet supported in browsers
-			global.DD_MODULES = exports.add(global.DD_MODULES);
-		//! END_IF()
-	//! BEGIN_REMOVE()
-	};
-	//! END_REMOVE()
-}).call(
-	//! BEGIN_REMOVE()
-	(typeof window !== 'undefined') ? window : ((typeof global !== 'undefined') ? global : this)
-	//! END_REMOVE()
-	//! IF_DEF("serverSide")
-	//! 	INJECT("global")
-	//! ELSE()
-	//! 	INJECT("window")
-	//! END_IF()
-);
+	},
+};
+//! END_MODULE()
