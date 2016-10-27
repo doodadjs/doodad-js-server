@@ -1,8 +1,7 @@
 {
   "name": "doodad-js-server",
-  "stage": "a",
-  "version": "0.8.0",
   "description": "doodad-js Server base (alpha)",
+  "version": "0.0.0",
   "files": [
 	"tonic.js"
   ],
