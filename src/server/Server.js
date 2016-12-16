@@ -64,6 +64,7 @@ module.exports = {
 							mixIns.Events,
 				{
 					$TYPE_NAME: 'Session',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('Session')), true) */,
 
 					onDestroy: doodad.EVENT(false),
 					
@@ -101,6 +102,7 @@ module.exports = {
 				serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
 				{
 					$TYPE_NAME: 'StorageManager',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('StorageManagerInterface')), true) */,
 					
 					has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
 					get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
@@ -121,6 +123,7 @@ module.exports = {
 				serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
 				{
 					$TYPE_NAME: 'SessionManager',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('SessionManagerInterface')), true) */,
 					
 					has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
 					get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns session object
@@ -143,6 +146,7 @@ module.exports = {
 									mixIns.Events,
 				{
 					$TYPE_NAME: 'Request',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('RequestMixIn')), true) */,
 					
 					onSanitize: doodad.EVENT(false),
 					onEnd: doodad.EVENT(false),
@@ -173,6 +177,7 @@ module.exports = {
 				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
 				{
 					$TYPE_NAME: 'Response',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ResponseMixIn')), true) */,
 					
 					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
 					options: doodad.PUBLIC(doodad.READ_ONLY(null)),
@@ -185,6 +190,7 @@ module.exports = {
 									ioMixIns.Listener,
 				{
 					$TYPE_NAME: 'Server',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ServerMixIn')), true) */,
 
 					onError: doodad.ERROR_EVENT(),
 					onNewRequest: doodad.EVENT(true),
