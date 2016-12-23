@@ -198,7 +198,7 @@ module.exports = {
 				
 
 				server.REGISTER(types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
-					this._super.call(this._this, message || "End of request.", params);
+					this.superArgs = [message || "End of request.", params];
 				}));
 			},
 		};
