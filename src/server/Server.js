@@ -162,14 +162,11 @@ module.exports = {
 					}),
 					
 					sanitize: doodad.PUBLIC(function() {
-						//try {
-							this.onSanitize(new doodad.Event());
-						//} catch(ex) {
-						//	this.onError(new doodad.ErrorEvent(ex));
-						//};
+						this.onSanitize();
+						this.onSanitize.clear();
 					}),
 					
-					catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.MUST_OVERRIDE()))),
+					catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.CAN_BE_DESTROYED(doodad.MUST_OVERRIDE())))),
 					
 					end: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function()
 				})));
