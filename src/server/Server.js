@@ -168,7 +168,7 @@ module.exports = {
 					
 					catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.CAN_BE_DESTROYED(doodad.MUST_OVERRIDE())))),
 					
-					end: doodad.PUBLIC(doodad.ASYNC(doodad.NOT_REENTRANT(doodad.MUST_OVERRIDE()))), // function()
+					end: doodad.PUBLIC(doodad.ASYNC(doodad.NON_REENTRANT(doodad.MUST_OVERRIDE()))), // function()
 				})));
 				
 				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
