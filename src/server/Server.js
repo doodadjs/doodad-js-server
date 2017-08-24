@@ -161,7 +161,7 @@ module.exports = {
 						_shared.setAttribute(this, 'data', {});
 					}),
 					
-					sanitize: doodad.PUBLIC(function() {
+					sanitize: doodad.PROTECTED(function() {
 						this.onSanitize();
 						this.onSanitize.clear();
 					}),
