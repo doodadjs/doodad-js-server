@@ -142,8 +142,8 @@ module.exports = {
 				/*************************************/
 					
 				serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
-									mixIns.Creatable,
 									mixIns.Events,
+									mixIns.Creatable,
 				{
 					$TYPE_NAME: 'Request',
 					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('RequestMixIn')), true) */,
