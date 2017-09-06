@@ -51,7 +51,7 @@ module.exports = {
 				};
 
 
-				//types.complete(_shared.Natives, {
+				//tools.complete(_shared.Natives, {
 					//windowError: (global.Error || Error), // NOTE: "node.js" does not include "Error" in "global".
 				//});
 
