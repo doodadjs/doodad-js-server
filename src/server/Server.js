@@ -51,7 +51,6 @@ exports.add = function add(DD_MODULES) {
 
 
 			//tools.complete(_shared.Natives, {
-				//windowError: (global.Error || Error), // NOTE: "node.js" does not include "Error" in "global".
 			//});
 
 				
@@ -193,9 +192,9 @@ exports.add = function add(DD_MODULES) {
 			})));
 				
 
-			server.REGISTER(types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _new(/*optional*/message, /*optional*/params) {
-				this.superArgs = [message || "End of request.", params];
-			}));
+			server.REGISTER(types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _super(/*optional*/message, /*optional*/params) {
+				return [message || "End of request.", params];
+			}, null, null, null, /*! REPLACE_BY(TO_SOURCE(UUID('EndOfRequest')), true) */ null /*! END_REPLACE() */));
 		},
 	};
 	return DD_MODULES;
