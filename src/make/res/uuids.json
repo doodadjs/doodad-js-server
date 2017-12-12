@@ -4,5 +4,6 @@
     "SessionManagerInterface": "74fb7cb8-2aa3-4c3c-b4cb-3ac2051d89bc",
     "RequestMixIn": "fb40436c-000a-4611-a143-ea7a7b6f15e8",
     "ResponseMixIn": "3dee4755-5815-4db5-86b3-20b1cc503505",
-    "ServerMixIn": "5f240ef5-5ec4-45d3-a082-1c9e84002859"
+    "ServerMixIn": "5f240ef5-5ec4-45d3-a082-1c9e84002859",
+    "EndOfRequest": "3ab3a108-0b84-4d37-aed0-ff9ef87caeb1"
 }
