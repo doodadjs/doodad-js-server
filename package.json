@@ -1,5 +1,5 @@
 {
-  "name": "doodad-js-server",
+  "name": "@doodad-js/server",
   "description": "doodad-js Server base (alpha)",
   "version": "0.0.0",
   "files": [
