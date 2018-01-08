@@ -192,9 +192,14 @@ exports.add = function add(DD_MODULES) {
 			})));
 				
 
-			server.REGISTER(types.createErrorType('EndOfRequest', types.ScriptInterruptedError, function _super(/*optional*/message, /*optional*/params) {
-				return [message || "End of request.", params];
-			}, null, null, null, /*! REPLACE_BY(TO_SOURCE(UUID('EndOfRequest')), true) */ null /*! END_REPLACE() */));
+			server.REGISTER(types.ScriptInterruptedError.$inherit({
+				$TYPE_NAME: 'EndOfRequest',
+				$TYPE_UUID: /*! REPLACE_BY(TO_SOURCE(UUID('EndOfRequest')), true) */ null /*! END_REPLACE() */,
+
+				[types.ConstructorSymbol](/*optional*/message, /*optional*/params) {
+					return [message || "End of request.", params];
+				}
+			}));
 		},
 	};
 	return DD_MODULES;
