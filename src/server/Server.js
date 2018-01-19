@@ -35,19 +35,19 @@ exports.add = function add(DD_MODULES) {
 
 			const doodad = root.Doodad,
 				types = doodad.Types,
-				tools = doodad.Tools,
+				//tools = doodad.Tools,
 				mixIns = doodad.MixIns,
-				interfaces = doodad.Interfaces,
+				//interfaces = doodad.Interfaces,
 				io = doodad.IO,
 				ioMixIns = io.MixIns,
-				ioInterfaces = io.Interfaces,
+				//ioInterfaces = io.Interfaces,
 				server = doodad.Server,
 				serverInterfaces = server.Interfaces,
 				serverMixIns = server.MixIns;
 					
 					
-			const __Internal__ = {
-			};
+			//const __Internal__ = {
+			//};
 
 
 			//tools.complete(_shared.Natives, {
