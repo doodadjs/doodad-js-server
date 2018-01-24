@@ -1,9 +1,9 @@
 {
-    "Session": "04283f74-77d5-4246-add2-86c76712b6a3",
-    "StorageManagerInterface": "d22adca3-c913-49ba-a432-eccaac1f5044",
-    "SessionManagerInterface": "74fb7cb8-2aa3-4c3c-b4cb-3ac2051d89bc",
-    "RequestMixIn": "fb40436c-000a-4611-a143-ea7a7b6f15e8",
-    "ResponseMixIn": "3dee4755-5815-4db5-86b3-20b1cc503505",
-    "ServerMixIn": "5f240ef5-5ec4-45d3-a082-1c9e84002859",
-    "EndOfRequest": "3ab3a108-0b84-4d37-aed0-ff9ef87caeb1"
+    "Session": "d70d29cf-f73a-4fa7-9461-737e24261dfe",
+    "StorageManagerInterface": "6bf3f4ed-d04e-4c2e-a79f-b26a2e2ef1b7",
+    "SessionManagerInterface": "9ed0a456-bb22-4b4d-aa27-3837f05706ed",
+    "RequestMixIn": "6bb0e67f-0a11-4a5f-a9c2-7ee2cf53d096",
+    "ResponseMixIn": "394da4b6-bd24-4ab2-aff9-964a19c4080e",
+    "ServerMixIn": "a6c49089-2f94-4510-b49a-06ba4ffbaaeb",
+    "EndOfRequest": "c9db7dae-4ce3-4c4e-99bf-0c0a081cd4c1"
 }
