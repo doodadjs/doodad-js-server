@@ -80,7 +80,7 @@ exports.add = function add(DD_MODULES) {
 						root.DD_ASSERT(!types.isNothing(id), "Invalid id.");
 					};
 					this._super();
-					_shared.setAttributes(this, {
+					types.setAttributes(this, {
 						manager: manager,
 						id: id,
 						data: {},
@@ -95,7 +95,7 @@ exports.add = function add(DD_MODULES) {
 				}),
 					
 				refresh: doodad.PUBLIC(function() {
-					_shared.setAttribute(this, 'timestamp', new Date());
+					types.setAttribute(this, 'timestamp', new Date());
 				}),
 			}));
 				
@@ -159,7 +159,7 @@ exports.add = function add(DD_MODULES) {
 				create: doodad.OVERRIDE(function create() {
 					this._super();
 						
-					_shared.setAttribute(this, 'data', {});
+					types.setAttribute(this, 'data', {});
 				}),
 					
 				sanitize: doodad.PROTECTED(function() {
