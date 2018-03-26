@@ -29,9 +29,9 @@
 	"use strict";
 //! END_IF()
 
-exports.add = function add(DD_MODULES) {
-	DD_MODULES = (DD_MODULES || {});
-	DD_MODULES['Doodad.Server'] = {
+exports.add = function add(modules) {
+	modules = (modules || {});
+	modules['Doodad.Server'] = {
 		version: /*! REPLACE_BY(TO_SOURCE(VERSION(MANIFEST("name")))) */ null /*! END_REPLACE()*/,
 		namespaces: ['Interfaces', 'MixIns'],
 
@@ -205,7 +205,7 @@ exports.add = function add(DD_MODULES) {
 			}));
 		},
 	};
-	return DD_MODULES;
+	return modules;
 };
 
 //! END_MODULE()
