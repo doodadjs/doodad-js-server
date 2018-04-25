@@ -26,7 +26,7 @@
 
 //! IF_SET("mjs")
 //! ELSE()
-	"use strict";
+"use strict";
 //! END_IF()
 
 exports.add = function add(modules) {
@@ -62,58 +62,58 @@ exports.add = function add(modules) {
 			/***********************************/
 
 			server.REGISTER(doodad.Object.$extend(
-						mixIns.Events,
-			{
-				$TYPE_NAME: 'Session',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('Session')), true) */,
+				mixIns.Events,
+				{
+					$TYPE_NAME: 'Session',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('Session')), true) */,
 
-				onDestroy: doodad.EVENT(false),
+					onDestroy: doodad.EVENT(false),
 
-				manager: doodad.PUBLIC(doodad.READ_ONLY(  null )),
-				id: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
-				data: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
-				timestamp: doodad.PUBLIC(doodad.READ_ONLY(  null  )),  // to calculate session timeout
+					manager: doodad.PUBLIC(doodad.READ_ONLY(  null )),
+					id: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
+					data: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
+					timestamp: doodad.PUBLIC(doodad.READ_ONLY(  null  )),  // to calculate session timeout
 
-				create: doodad.OVERRIDE(function create(manager, id) {
-					if (root.DD_ASSERT) {
-						root.DD_ASSERT(types._implements(manager, serverInterfaces.SessionManager), "Invalid session manager.");
-						root.DD_ASSERT(!types.isNothing(id), "Invalid id.");
-					};
-					this._super();
-					types.setAttributes(this, {
-						manager: manager,
-						id: id,
-						data: {},
-					});
-					this.refresh();
-				}),
+					create: doodad.OVERRIDE(function create(manager, id) {
+						if (root.DD_ASSERT) {
+							root.DD_ASSERT(types._implements(manager, serverInterfaces.SessionManager), "Invalid session manager.");
+							root.DD_ASSERT(!types.isNothing(id), "Invalid id.");
+						};
+						this._super();
+						types.setAttributes(this, {
+							manager: manager,
+							id: id,
+							data: {},
+						});
+						this.refresh();
+					}),
 
-				destroy: doodad.OVERRIDE(function destroy() {
-					this.onDestroy(new doodad.Event());
-					this.manager.remove(this.id);
-					this._super();
-				}),
+					destroy: doodad.OVERRIDE(function destroy() {
+						this.onDestroy(new doodad.Event());
+						this.manager.remove(this.id);
+						this._super();
+					}),
 
-				refresh: doodad.PUBLIC(function() {
-					types.setAttribute(this, 'timestamp', new Date());
-				}),
-			}));
+					refresh: doodad.PUBLIC(function() {
+						types.setAttribute(this, 'timestamp', new Date());
+					}),
+				}));
 
 			// What a storage manager (memory, disk files, database, ...) must implement
 			serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
-			{
-				$TYPE_NAME: 'StorageManager',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('StorageManagerInterface')), true) */,
+				{
+					$TYPE_NAME: 'StorageManager',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('StorageManagerInterface')), true) */,
 
-				has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
-				get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
-				add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, value)
-				update: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, value)
-				remove: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
-				clear: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
-				copy: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, destStorage)
-				move: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, destStorage)
-			})));
+					has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
+					get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
+					add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, value)
+					update: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, value)
+					remove: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
+					clear: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
+					copy: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, destStorage)
+					move: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, destStorage)
+				})));
 
 			// What a session manager must implement.
 			// NOTE: Must use a storage manager to store session data
@@ -122,20 +122,20 @@ exports.add = function add(modules) {
 			// NOTE: Each session can have different storage
 			// NOTE: Ideally, the application should have only one session manager
 			serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
-			{
-				$TYPE_NAME: 'SessionManager',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('SessionManagerInterface')), true) */,
+				{
+					$TYPE_NAME: 'SessionManager',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('SessionManagerInterface')), true) */,
 
-				has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
-				get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns session object
-				add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(storage, /*optional*/data) returns new id
-				update: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, session)
-				remove: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
-				clear: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
-				copy: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, destStorage) returns new id
-				move: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, destStorage) returns new id
-				renew: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns new id
-			})));
+					has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
+					get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns session object
+					add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(storage, /*optional*/data) returns new id
+					update: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, session)
+					remove: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
+					clear: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function()
+					copy: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, destStorage) returns new id
+					move: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id, destStorage) returns new id
+					renew: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns new id
+				})));
 
 
 			/*************************************/
@@ -143,56 +143,56 @@ exports.add = function add(modules) {
 			/*************************************/
 
 			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
-								mixIns.Events,
-								mixIns.Creatable,
-			{
-				$TYPE_NAME: 'Request',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('RequestMixIn')), true) */,
+				mixIns.Events,
+				mixIns.Creatable,
+				{
+					$TYPE_NAME: 'Request',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('RequestMixIn')), true) */,
 
-				onSanitize: doodad.EVENT(false),
-				onEnd: doodad.EVENT(false),
-				onError: doodad.ERROR_EVENT(),
+					onSanitize: doodad.EVENT(false),
+					onEnd: doodad.EVENT(false),
+					onError: doodad.ERROR_EVENT(),
 
-				server: doodad.PUBLIC(doodad.READ_ONLY(null)),
-				data: doodad.PUBLIC(doodad.READ_ONLY(null)),
+					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
+					data: doodad.PUBLIC(doodad.READ_ONLY(null)),
 
-				create: doodad.OVERRIDE(function create() {
-					this._super();
+					create: doodad.OVERRIDE(function create() {
+						this._super();
 
-					types.setAttribute(this, 'data', {});
-				}),
+						types.setAttribute(this, 'data', {});
+					}),
 
-				sanitize: doodad.PROTECTED(function() {
-					this.onSanitize();
-					this.onSanitize.clear();
-				}),
+					sanitize: doodad.PROTECTED(function() {
+						this.onSanitize();
+						this.onSanitize.clear();
+					}),
 
-				catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.CAN_BE_DESTROYED(doodad.MUST_OVERRIDE())))),
+					catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.CAN_BE_DESTROYED(doodad.MUST_OVERRIDE())))),
 
-				end: doodad.PUBLIC(doodad.ASYNC(doodad.NON_REENTRANT(doodad.MUST_OVERRIDE()))), // function()
-			})));
-
-			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
-			{
-				$TYPE_NAME: 'Response',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ResponseMixIn')), true) */,
-
-				server: doodad.PUBLIC(doodad.READ_ONLY(null)),
-				options: doodad.PUBLIC(doodad.READ_ONLY(null)),
-
-				execute: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function(request)
-			})));
+					end: doodad.PUBLIC(doodad.ASYNC(doodad.NON_REENTRANT(doodad.MUST_OVERRIDE()))), // function()
+				})));
 
 			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
-								mixIns.Events,
-								ioMixIns.Listener,
-			{
-				$TYPE_NAME: 'Server',
-				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ServerMixIn')), true) */,
+				{
+					$TYPE_NAME: 'Response',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ResponseMixIn')), true) */,
 
-				onError: doodad.ERROR_EVENT(),
-				onNewRequest: doodad.EVENT(true),
-			})));
+					server: doodad.PUBLIC(doodad.READ_ONLY(null)),
+					options: doodad.PUBLIC(doodad.READ_ONLY(null)),
+
+					execute: doodad.PUBLIC(doodad.ASYNC(doodad.MUST_OVERRIDE())), // function(request)
+				})));
+
+			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
+				mixIns.Events,
+				ioMixIns.Listener,
+				{
+					$TYPE_NAME: 'Server',
+					$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ServerMixIn')), true) */,
+
+					onError: doodad.ERROR_EVENT(),
+					onNewRequest: doodad.EVENT(true),
+				})));
 
 
 			server.REGISTER(types.ScriptInterruptedError.$inherit({
