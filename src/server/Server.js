@@ -47,8 +47,8 @@ exports.add = function add(modules) {
 				server = doodad.Server,
 				serverInterfaces = server.Interfaces,
 				serverMixIns = server.MixIns;
-					
-					
+
+
 			//const __Internal__ = {
 			//};
 
@@ -56,7 +56,7 @@ exports.add = function add(modules) {
 			//tools.complete(_shared.Natives, {
 			//});
 
-				
+
 			/***********************************/
 			/****          SESSIONS          ***/
 			/***********************************/
@@ -68,12 +68,12 @@ exports.add = function add(modules) {
 				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('Session')), true) */,
 
 				onDestroy: doodad.EVENT(false),
-					
+
 				manager: doodad.PUBLIC(doodad.READ_ONLY(  null )),
 				id: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
 				data: doodad.PUBLIC(doodad.READ_ONLY(  null  )),
 				timestamp: doodad.PUBLIC(doodad.READ_ONLY(  null  )),  // to calculate session timeout
-					
+
 				create: doodad.OVERRIDE(function create(manager, id) {
 					if (root.DD_ASSERT) {
 						root.DD_ASSERT(types._implements(manager, serverInterfaces.SessionManager), "Invalid session manager.");
@@ -87,24 +87,24 @@ exports.add = function add(modules) {
 					});
 					this.refresh();
 				}),
-					
+
 				destroy: doodad.OVERRIDE(function destroy() {
 					this.onDestroy(new doodad.Event());
 					this.manager.remove(this.id);
 					this._super();
 				}),
-					
+
 				refresh: doodad.PUBLIC(function() {
 					types.setAttribute(this, 'timestamp', new Date());
 				}),
 			}));
-				
+
 			// What a storage manager (memory, disk files, database, ...) must implement
 			serverInterfaces.REGISTER(doodad.INTERFACE(doodad.Class.$extend(
 			{
 				$TYPE_NAME: 'StorageManager',
 				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('StorageManagerInterface')), true) */,
-					
+
 				has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
 				get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key)
 				add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(key, value)
@@ -125,7 +125,7 @@ exports.add = function add(modules) {
 			{
 				$TYPE_NAME: 'SessionManager',
 				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('SessionManagerInterface')), true) */,
-					
+
 				has: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id)
 				get: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns session object
 				add: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(storage, /*optional*/data) returns new id
@@ -137,18 +137,18 @@ exports.add = function add(modules) {
 				renew: doodad.PUBLIC(doodad.MUST_OVERRIDE()), // function(id) returns new id
 			})));
 
-				
+
 			/*************************************/
 			/***           GENERIC             ***/
 			/*************************************/
-					
+
 			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
 								mixIns.Events,
 								mixIns.Creatable,
 			{
 				$TYPE_NAME: 'Request',
 				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('RequestMixIn')), true) */,
-					
+
 				onSanitize: doodad.EVENT(false),
 				onEnd: doodad.EVENT(false),
 				onError: doodad.ERROR_EVENT(),
@@ -158,25 +158,25 @@ exports.add = function add(modules) {
 
 				create: doodad.OVERRIDE(function create() {
 					this._super();
-						
+
 					types.setAttribute(this, 'data', {});
 				}),
-					
+
 				sanitize: doodad.PROTECTED(function() {
 					this.onSanitize();
 					this.onSanitize.clear();
 				}),
-					
+
 				catchError: doodad.PUBLIC(doodad.ASYNC(doodad.BIND(doodad.CAN_BE_DESTROYED(doodad.MUST_OVERRIDE())))),
-					
+
 				end: doodad.PUBLIC(doodad.ASYNC(doodad.NON_REENTRANT(doodad.MUST_OVERRIDE()))), // function()
 			})));
-				
+
 			serverMixIns.REGISTER(doodad.MIX_IN(doodad.Class.$extend(
 			{
 				$TYPE_NAME: 'Response',
 				$TYPE_UUID: '' /*! INJECT('+' + TO_SOURCE(UUID('ResponseMixIn')), true) */,
-					
+
 				server: doodad.PUBLIC(doodad.READ_ONLY(null)),
 				options: doodad.PUBLIC(doodad.READ_ONLY(null)),
 
@@ -193,7 +193,7 @@ exports.add = function add(modules) {
 				onError: doodad.ERROR_EVENT(),
 				onNewRequest: doodad.EVENT(true),
 			})));
-				
+
 
 			server.REGISTER(types.ScriptInterruptedError.$inherit({
 				$TYPE_NAME: 'EndOfRequest',
